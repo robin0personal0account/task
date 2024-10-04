@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mahi's Daily Planner</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f9fc;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            color: #1e88e5;
+            margin: 20px 0;
+            font-weight: 600;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Task Sections */
+        .task-category {
+            margin-bottom: 30px; /* Reduced margin to prevent overflow */
+        }
+
+        .task-category h2 {
+            font-size: 1.5rem;
+            color: #1565c0;
+            border-left: 4px solid #1565c0;
+            padding-left: 10px;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .task-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 15px;
+        }
+
+        .task-card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .task-card:hover {
+            transform: translateY(-5px);
+            background-color: #e3f2fd;
+        }
+
+        .task-card .emoji {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .task-card p {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .task-card.complete::after {
+            content: '✔️';
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 1.5rem;
+            color: #00b894;
+        }
+
+        .progress-container {
+            width: 100%;
+            background-color: #e1e8ee;
+            border-radius: 20px;
+            height: 25px;
+            position: relative;
+            overflow: hidden;
+            margin: 30px 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #42a5f5, #66bb6a);
+            width: 0;
+            transition: width 0.5s ease;
+            border-radius: 20px;
+        }
+
+        .progress-emoji {
+            position: absolute;
+            top: -35px;
+            right: 0;
+            font-size: 2rem;
+            transition: right 0.5s ease;
+        }
+
+        .progress-tips {
+            font-size: 1rem;
+            color: #666;
+            margin-top: 15px;
+            font-style: italic;
+        }
+
+        /* Tips and Notes */
+        .note {
+            margin-top: 20px;
+            font-size: 1.1rem;
+            color: #333;
+            padding: 10px;
+            border-left: 4px solid #42a5f5;
+            background-color: #e3f2fd;
+            border-radius: 10px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .task-card {
+                padding: 10px;
+            }
+
+            .task-card .emoji {
+                font-size: 1.8rem;
+            }
+
+            .task-list {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .task-list {
+                grid-template-columns: 1fr;
+            }
+
+            .task-card p {
+                font-size: 0.95rem;
+            }
+
+            .progress-tips {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Mahi's Daily Planner</h1>
+
+        <!-- Study Section -->
+        <div class="task-category">
+            <h2>📚 Study Time</h2>
+            <div class="task-list">
+                <div class="task-card" onclick="completeTask(this)">
+                    <div class="emoji">📝</div>
+                    <p>Review Class Notes</p>
+                </div>
+                <div class="task-card" onclick="completeTask(this)">
+                    <div class="emoji">📖</div>
+                    <p>Read New Chapter</p>
+                </div>
+                <div class="task-card" onclick="completeTask(this)">
+                    <div class="emoji">✏️</div>
+                    <p>Practice Questions</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Health & Fitness Section -->
+        <div class="task-category">
+            <h2>🍎 Health & Wellness</h2>
+            <div class="task-list">
+                <div class="task-card" onclick="completeTask(this)">
+                    <div class="emoji">🥗</div>
+                    <p>Healthy Meal</p>
+                </div>
+                <div class="task-card" onclick="completeTask(this)">
+                    <div class="emoji">💧</div>
+                    <p>Drink Water (8 Glasses)</p>
+                </div>
+                <div class="task-card" onclick="completeTask(this)">
+                    <div class="emoji">🏃‍♀️</div>
+                    <p>30-Min Exercise</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Self-care Section -->
+        <div class="task-category">
+            <h2>💆‍♀️ Self-care</h2>
+            <div class="task-list">
+                <div class="task-card" onclick="completeTask(this)">
+                    <div class="emoji">🧴</div>
+                    <p>Skincare Routine</p>
+                </div>
+                <div class="task-card" onclick="completeTask(this)">
+                    <div class="emoji">🛁</div>
+                    <p>Relaxing Bath</p>
+                </div>
+                <div class="task-card" onclick="completeTask(this)">
+                    <div class="emoji">😴</div>
+                    <p>Get 8 Hours of Sleep</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- General Daily Habits Section -->
+        <div class="task-category">
+            <h2>🌟 Daily Habits</h2>
+            <div class="task-list">
+                <div class="task-card" onclick="completeTask(this)">
+                    <div class="emoji">🧘‍♀️</div>
+                    <p>5-Min Meditation</p>
+                </div>
+                <div class="task-card" onclick="completeTask(this)">
+                    <div class="emoji">✍️</div>
+                    <p>Write in Journal</p>
+                </div>
+                <div class="task-card" onclick="completeTask(this)">
+                    <div class="emoji">🌅</div>
+                    <p>Gratitude Practice</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+            <div class="progress-emoji" id="progress-emoji">😊</div>
+        </div>
+        <p class="progress-tips" id="progress-tips">Let’s crush these tasks! You got this, Mahi! 💪</p>
+
+        <!-- Motivating Note -->
+        <div class="note">
+            Remember: Small daily steps lead to big changes! Keep moving forward! 🌱
+        </div>
+
+    </div>
+
+    <script>
+        let completedTasks = 0;
+        const totalTasks = document.querySelectorAll('.task-card').length;
+
+        function completeTask(card) {
+            if (!card.classList.contains('complete')) {
+                card.classList.add('complete');
+                completedTasks++;
+                updateProgress();
+            }
+        }
+
+        function updateProgress() {
+            const progressPercentage = (completedTasks / totalTasks) * 100;
+            const progressBar = document.getElementById('progress-bar');
+            const progressEmoji = document.getElementById('progress-emoji');
+            const progressTips = document.getElementById('progress-tips');
+
+            progressBar.style.width = progressPercentage + '%';
+            progressEmoji.style.right = (100 - progressPercentage) + '%';
+
+            if (progressPercentage < 40) {
+                progressEmoji.innerHTML = '😊';
+                progressTips.innerHTML = "You're doing great! Keep going!";
+            } else if (progressPercentage < 80) {
+                progressEmoji.innerHTML = '😃';
+                progressTips.innerHTML = "Almost there! Keep up the good work!";
+            } else {
+                progressEmoji.innerHTML = '🎉';
+                progressTips.innerHTML = "You're amazing! Tasks completed!";
+            }
+        }
+    </script>
+
+</body>
+
+</html>
